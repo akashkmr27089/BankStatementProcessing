@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
 import "../css/FormCss.css";
-
+import FileSubmissionForm from "./FileUpload/FileSubmissionForm.js";
+import DataTable from "./Detatable/dataTable.js";
 
 
 const FileUploadForm = () => {
@@ -73,17 +74,8 @@ const FileUploadForm = () => {
 
     return (
         <div className="container">
-            <form >
-                <div className="form-control">
-                    <label htmlFor="BankOptions">Bank</label>
-                    <input className="formTextInput" id="BankOptions" type="text" placeholder="Bank" onChange={(e) => setBank(e.target.value)} />
-                </div>
-                <div className="form-control">
-                    <label htmlFor="AccSumFile">Account Summary File</label><br />
-                    <input className="formFileChoose" id="AccSumFile" type="file" onChange={(e) => setFile(e.target.files[0])} />
-                </div>
-                <button id="FileSubmit" type="button" className="btn btn-dark" type="submit" value="Submit" onClick={onFileUpload}>Submit</button>
-            </form>
+            <FileSubmissionForm key="FileSubmissionForm" onFileUpload={onFileUpload} setFile={setFile} setBank={setBank} />
+            <DataTable key="Datable" heading="Heading Display" titleValue={title} dataValue={data} />
         </div>
     )
 }
