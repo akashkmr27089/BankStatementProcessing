@@ -20,6 +20,7 @@ def dataExtract(bank, filename):
     for line in data:
         count += 1
         dataEntry.append([x.strip() for x in line.split('\t')])
+        dataEntry[-1].insert(0, count)
         if(count >= bankConfig["Data_start"] and count < (num_lines + bankConfig["Data_end"])):
             dataEntry[-1][-1] = float(dataEntry[-1][-1].replace(',', ''))
             if(dataEntry[-1][-2] != ""):
@@ -35,7 +36,7 @@ def dataExtract(bank, filename):
 
     title = dataEntry[bankConfig["title"]][:-1]
     transactionData = dataEntry[bankConfig["Data_start"]:bankConfig["Data_end"]]
-    return {"title": title, "transactionData": transactionData, "Total Debit": totalDebit, "Total Credit": totalCredit}
+    return {"title": title, "transactionData": transactionData, "TotalDebit": totalDebit, "TotalCredit": totalCredit}
 
 
 def generateJsonData(FileData):
