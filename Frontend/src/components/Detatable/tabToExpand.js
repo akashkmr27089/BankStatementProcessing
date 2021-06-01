@@ -1,23 +1,28 @@
 import React from 'react'
+import { useState } from 'react'
 import { Accordion, Card, useAccordionToggle } from 'react-bootstrap'
+import { FiChevronsDown, FiChevronsUp } from 'react-icons/fi';
+
 
 const CustomToggle = ({ children, eventKey }) => {
-    const decoratedOnClick = useAccordionToggle(eventKey, () =>
-        console.log('totally custom!'),
+    const [EventKey, setEventKey] = useState((parseInt(eventKey)));
+    console.log(" This is test ");
+    const decoratedOnClick = useAccordionToggle(eventKey, (e) => { setEventKey(EventKey + 1) }
     );
 
     return (
-        <button
-            type="button"
-            className="btn btn-primary"
-            onClick={decoratedOnClick}
-        >
-            {children}
-        </button>
+        <div className="row">
+            <div className="AccordianContent col-10">
+                {children}
+            </div>
+            <div className="AccordianArrow col-2">
+                {(!({ EventKey }.EventKey % 2)) && <FiChevronsDown style={{ cursor: 'pointer' }} onClick={decoratedOnClick} /> || ({ EventKey }.EventKey % 2) && <FiChevronsUp style={{ cursor: 'pointer' }} onClick={decoratedOnClick} />}
+            </div>
+        </div>
     );
 }
 
-const TabToExpand = () => {
+const TabToExpand = ({ defaultActiveKey, ToggleCustom, Body, openOrClose }) => {
     // const [isExpanded, setIs]
     return (
         <>
