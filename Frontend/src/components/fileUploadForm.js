@@ -3,6 +3,7 @@ import { useState } from 'react';
 import "../css/FormCss.css";
 import FileSubmissionForm from "./FileUpload/FileSubmissionForm.js";
 import DataTable from "./Detatable/dataTable.js";
+import ApexPieChart from './Graph/ApexPieChart';
 
 
 const FileUploadForm = () => {
@@ -15,20 +16,6 @@ const FileUploadForm = () => {
 
 
     const fetchData = async (formData) => {
-        // fetch("http://127.0.0.1:5000/", {
-        //     method: "GET",
-        // }).then(res => res.json()).then((rep) => console.log(rep))
-        //     .catch(error => console.log("error", error));
-
-        //GetRequest for taking data 
-        // var result = await fetch("http://127.0.0.1:5000/", {
-        //     method: "GET",
-        // }).then(res => res.json())
-        //     .catch(error => console.log("error", error));
-        // setTitle(result.title);
-        // setData(result.transactionData);
-        // console.log({ title }, { data });
-
 
         // Working Post Request
         const requestOptions = {
@@ -72,10 +59,31 @@ const FileUploadForm = () => {
         fetchData(formData);
     };
 
+    const DebitCreditChart = {
+        series: [{ totalDebit }.totalDebit, { totalCredit }.totalCredit],
+        chartOptions: {
+            labels: ['Total Debit', 'Total Credit']
+        },
+        title: "Testing"
+    };
+
+
     return (
         <div className="container">
-            <FileSubmissionForm key="FileSubmissionForm" onFileUpload={onFileUpload} setFile={setFile} setBank={setBank} />
-            <DataTable key="Datable" heading="Heading Display" titleValue={title} dataValue={data} />
+            <div className="row">
+                <div className="col">
+                    <FileSubmissionForm key="FileSubmissionForm" onFileUpload={onFileUpload} setFile={setFile} setBank={setBank} />
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-6 AccountDataSubmission">
+                    <DataTable key="Datable" heading="Transaction" titleValue={title} dataValue={data} />
+                </div>
+                <div className="col-6" id="AccountSumView">
+                    {/* Graphs */}
+                    {(totalDebit || totalCredit) && <ApexPieChart type="donut" options={{ width: "500" }} data={DebitCreditChart} />}
+                </div>
+            </div>
         </div>
     )
 }
