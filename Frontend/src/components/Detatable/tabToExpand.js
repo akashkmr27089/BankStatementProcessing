@@ -22,25 +22,24 @@ const CustomToggle = ({ children, eventKey }) => {
     );
 }
 
-const TabToExpand = ({ defaultActiveKey, ToggleCustom, Body, openOrClose }) => {
-    // const [isExpanded, setIs]
+const TabToExpand = ({ defaultActiveKey, openOrClose, ToggleContent, Body, style }) => {
+    // Parametes:
+    // defaultActiveKey: "0"
+    // openOrClose : Contains Default Option Upon page Load wheather to open or close 
+    // Body : Contains Body content 
+    // ToggleContent: Contains the Head content 
+    const cssStyle = {
+        backgroundColor: "#df8585"
+    }
     return (
         <>
-            <Accordion defaultActiveKey="0">
-                <Card>
-                    <Card.Header>
-                        <CustomToggle eventKey="0">Click me!</CustomToggle>
+            <Accordion defaultActiveKey={defaultActiveKey}>
+                <Card >
+                    <Card.Header style={{ backgroundColor: cssStyle.backgroundColor }} >
+                        <CustomToggle eventKey={openOrClose}>{ToggleContent}</CustomToggle>
                     </Card.Header>
-                    <Accordion.Collapse eventKey="0">
-                        <Card.Body>Hello! I'm the body</Card.Body>
-                    </Accordion.Collapse>
-                </Card>
-                <Card>
-                    <Card.Header>
-                        <CustomToggle eventKey="1">Click me!</CustomToggle>
-                    </Card.Header>
-                    <Accordion.Collapse eventKey="1">
-                        <Card.Body>Hello! I'm another body</Card.Body>
+                    <Accordion.Collapse eventKey={openOrClose}>
+                        <Card.Body>{Body}</Card.Body>
                     </Accordion.Collapse>
                 </Card>
             </Accordion>

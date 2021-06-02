@@ -1,6 +1,8 @@
 import React from "react";
 import Chart from "react-apexcharts";
 
+// InnerWorking
+//{
 // Apex chart Format 
 // const state = {
 //     series: [44, 55, 41, 17],
@@ -18,6 +20,7 @@ import Chart from "react-apexcharts";
 //     />;
 
 //<ApexPieChart type="donut" options={{ width: "500" }} data={state} />
+//}
 
 const ApexPieChart = ({ type, data, options }) => {
     return (
