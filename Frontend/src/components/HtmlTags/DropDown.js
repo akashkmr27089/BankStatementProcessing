@@ -3,8 +3,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown'
 
-const DropDown = ({ setSelected, dropdownValues }) => {
-    console.log({ dropdownValues });
+const DropDown = ({ setSelected, dropdownValues, title, id }) => {
+
+    // Parameters:
+    // const dropdownValues = ["OptionA", "OptionB", "OptionC", "OptionD"];
+    // <DropDown setSelected={setValue} dropdownValues={dropdownValues} title={"Option"} />
+
     const handleSelect = (e) => {
         console.log("Selected Value", e);
         setSelected(e);
@@ -15,8 +19,8 @@ const DropDown = ({ setSelected, dropdownValues }) => {
         <div className="App container">
             <DropdownButton
                 alighncenter
-                title="Options"
-                id="dropdown-menu-align-right"
+                title={title}
+                id={id}
                 onSelect={handleSelect}
             >
                 {optionsDropDown}

@@ -13,7 +13,7 @@ function App() {
   return (
     <div className="App container">
       <FileUploadForm />
-      <DropDown setSelected={setValue} dropdownValues={dropdownValues} />
+      {/* <DropDown setSelected={setValue} dropdownValues={dropdownValues} title={"Option"} id={"DropdownBtn"} /> */}
     </div>
   );
 

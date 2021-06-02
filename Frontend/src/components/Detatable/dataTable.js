@@ -14,7 +14,7 @@ const DataTable = ({ heading, titleValue, dataValue }) => {
                 <h3>{heading}</h3>
             </div>
             <div>
-                {dataValue.length != 0 ? dataValue.map(x => <TabToExpand defaultActiveKey="0" openOrClose="1" ToggleContent={x[4]} Body="Data" tileData={x} titleValue={titleValue} />) : ""}
+                {dataValue.length != 0 ? dataValue.map(x => <TabToExpand defaultActiveKey="0" openOrClose="1" ToggleContent={x[4]} Body={x} tileData={x} titleValue={titleValue} />) : ""}
                 {/* <TabToExpand defaultActiveKey="0" openOrClose="0" ToggleContent="Click Me" Body="Data" style={{}} /> */}
                 {/* {dataValue.length != 0 ? dataValue.map(x => <Tile tileData={x} titleValue={titleValue} />) : ""} */}
             </div>
