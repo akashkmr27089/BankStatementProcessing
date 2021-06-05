@@ -1,0 +1,19 @@
+.formTextInput {
+    margin-left: 23px;
+}
+
+.formFileChoose{
+    margin-left: 80px;
+}
+
+#FileSubmit{
+    margin-top:10px;
+}
+
+.card {
+    margin:10px;
+}
+
+#DropdownBtn {
+    background-color: green;
+}
