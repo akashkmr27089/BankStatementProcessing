@@ -6,7 +6,7 @@ import DropDown from '../HtmlTags/DropDown.js';
 
 const CustomToggle = ({ children, eventKey, setValue, DropDownAttributes }) => {
     const [EventKey, setEventKey] = useState((parseInt(eventKey)));
-    console.log(" This is test ", DropDownAttributes);
+    // console.log(" This is test ", DropDownAttributes);
     const decoratedOnClick = useAccordionToggle(eventKey, (e) => { setEventKey(EventKey + 1) }
     );
 
@@ -48,13 +48,13 @@ const TabToExpand = ({ defaultActiveKey, openOrClose, ToggleContent, Body, style
         id: `CategoryHead_${Body[0]}`
     };
 
-    console.log({ Body }.Body[0])
+    // console.log({ Body }.Body[0])
     let bodyTemplate = (
         <>
             <p><span><strong>Transaction Date : </strong></span> <span>{Body[1]}</span></p>
             <p><span><strong>Transaction Details: </strong></span> <span>{ToggleContent}</span></p>
-            {Body[5] != 0 ? (<p><span><strong>Debit : </strong></span> <span>{Body[5]}</span></p>) : ""}
-            {Body[6] != 0 ? (<p><span><strong>Credit : </strong></span> <span>{Body[6]}</span></p>) : ""}
+            {Body[5] !== 0 ? (<p><span><strong>Debit : </strong></span> <span>{Body[5]}</span></p>) : ""}
+            {Body[6] !== 0 ? (<p><span><strong>Credit : </strong></span> <span>{Body[6]}</span></p>) : ""}
             <p><span><strong>Total Retained Balance : </strong></span> <span>{Body[7]}</span></p>
         </>
     );

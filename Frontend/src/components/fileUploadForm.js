@@ -4,16 +4,19 @@ import "../css/FormCss.css";
 import FileSubmissionForm from "./FileUpload/FileSubmissionForm.js";
 import DataTable from "./Detatable/dataTable.js";
 import ApexPieChart from './Graph/ApexPieChart';
-
+import { useSelector, useDispatch } from "react-redux";
+import { setCreditDebitValue } from '../redux/transaction'
 
 const FileUploadForm = () => {
     const [bank, setBank] = useState('');
     const [file, setFile] = useState('');
     const [title, setTitle] = useState('');
     const [data, setData] = useState('');
-    const [totalDebit, setTDebit] = useState("");
-    const [totalCredit, setTCredit] = useState("");
+    // const [totalDebit, setTDebit] = useState("");
+    // const [totalCredit, setTCredit] = useState("");
 
+    const dispatch = useDispatch();
+    const { totalCredit, totalDebit } = useSelector(state => state.transaction)
 
     const fetchData = async (formData) => {
 
@@ -31,8 +34,11 @@ const FileUploadForm = () => {
             .then(res => res.json());
         setTitle(response.title)
         setData(response.transactionData);
-        setTDebit(response.TotalDebit);
-        setTCredit(response.TotalCredit);
+        console.log("Api Response ", response.TotalCredit, response.TotalDebit);
+        dispatch(setCreditDebitValue(JSON.stringify({ 'totalCredit': response.TotalCredit, 'totalDebit': response.TotalDebit })));
+        // dispatch(() => setCreditDebitValue(JSON.stringify({ 'totalCredit': response.TotalCredit, 'totalDebit': response.TotalDebit })));
+        // setTDebit(response.TotalDebit);
+        // setTCredit(response.TotalCredit);
         console.log({ title }, { data }, { totalDebit }, { totalCredit })
     }
 
@@ -52,15 +58,16 @@ const FileUploadForm = () => {
             "bank_details",
             bankData.bank
         );
-        console.log("acc_file", formData.get("acc_file"));
-        console.log("bank_details", formData.get("bank_details"));
+        // console.log("acc_file", formData.get("acc_file"));
+        // console.log("bank_details", formData.get("bank_details"));
 
         //Fetch command for putting post request 
         fetchData(formData);
     };
 
     const DebitCreditChart = {
-        series: [{ totalDebit }.totalDebit, { totalCredit }.totalCredit],
+        // series: [{ totalDebit }.totalDebit, { totalCredit }.totalCredit],
+        series: [totalDebit, totalCredit],
         chartOptions: {
             labels: ['Total Debit', 'Total Credit']
         },
@@ -76,10 +83,10 @@ const FileUploadForm = () => {
                 </div>
             </div>
             <div className="row">
-                <div className="col-6 AccountDataSubmission">
+                <div className="col-7 AccountDataSubmission">
                     <DataTable key="Datable" heading="Transaction" titleValue={title} dataValue={data} />
                 </div>
-                <div className="col-6" id="AccountSumView">
+                <div className="col-5" id="AccountSumView">
                     {/* Graphs */}
                     {(totalDebit || totalCredit) && <ApexPieChart type="donut" options={{ width: "500" }} data={DebitCreditChart} />}
                 </div>
