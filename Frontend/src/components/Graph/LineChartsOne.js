@@ -22,12 +22,12 @@ import Chart from "react-apexcharts";
 
 
 const LineChart = ({ data }) => {
-    console.log(data)
+    // console.log(data)
     const state = {
         series: { data }.data.LineSeries,
         options: {
             chart: {
-                height: 350,
+                height: 400,
                 type: 'line',
                 dropShadow: {
                     enabled: true,
@@ -38,12 +38,12 @@ const LineChart = ({ data }) => {
                     opacity: 0.2
                 },
                 toolbar: {
-                    show: false
+                    show: true
                 }
             },
             colors: ['#77B6EA', '#545454'],  //Color for dots 
             dataLabels: {
-                enabled: true,
+                enabled: false,
             },
             stroke: {
                 curve: 'smooth'

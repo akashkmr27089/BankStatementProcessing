@@ -5,7 +5,7 @@ import FileSubmissionForm from "./FileUpload/FileSubmissionForm.js";
 import DataTable from "./Detatable/dataTable.js";
 import ApexPieChart from './Graph/ApexPieChart';
 import { useSelector, useDispatch } from "react-redux";
-import { setCreditDebitValue } from '../redux/transaction'
+import { setCreditDebitValue, setBankData } from '../redux/transaction'
 import LineChart from './Graph/LineChartsOne';
 
 const FileUploadForm = () => {
@@ -15,7 +15,7 @@ const FileUploadForm = () => {
     const [data, setData] = useState('');
 
     const dispatch = useDispatch();
-    const { totalCredit, totalDebit } = useSelector(state => state.transaction)
+    const { totalCredit, totalDebit, PresentBalanceData } = useSelector(state => state.transaction)
 
     const fetchData = async (formData) => {
 
@@ -33,8 +33,10 @@ const FileUploadForm = () => {
             .then(res => res.json());
         setTitle(response.title)
         setData(response.transactionData);
+        dispatch(setBankData(response.transactionData));
         dispatch(setCreditDebitValue(JSON.stringify({ 'totalCredit': response.TotalCredit, 'totalDebit': response.TotalDebit })));
         console.log({ title }, { data }, { totalDebit }, { totalCredit })
+        console.log("testing ", PresentBalanceData.Data);
     }
 
     //For Form Submission 
@@ -73,17 +75,13 @@ const FileUploadForm = () => {
         LineSeries: [
             {
                 name: "High - 2014",
-                data: [28, 29, 33, 36, 32, 32, 32]
-            },
-            {
-                name: "Low - 2013",
-                data: [12, 11, 14, 18, 17, 13, 13]
+                data: PresentBalanceData.Data
             },
         ],
         categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-        Labels: { xlabel: "Month", ylabel: "Temperature" },
-        title: "Average Temperature",
-        initalValue: { min: 0, max: 40 },
+        Labels: { xlabel: "Progress", ylabel: "Money" },
+        title: "Total Balanace",
+        initalValue: { min: PresentBalanceData.min - PresentBalanceData.offSet, max: PresentBalanceData.max + PresentBalanceData.offSet },
     };
 
 
@@ -105,7 +103,6 @@ const FileUploadForm = () => {
                         </div>
                         <div className="col">
                             {(totalDebit || totalCredit) && <LineChart data={LineGraphData} /> || ""}
-                            {/* <LineChart data={LineGraphData} /> */}
                         </div>
                     </div>
                 </div>

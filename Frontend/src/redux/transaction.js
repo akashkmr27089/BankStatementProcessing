@@ -5,7 +5,9 @@ export const transactionSlice = createSlice({
     initialState: {
         totalCredit: 0,
         totalDebit: 0,
-        PresentBalance: []
+        PresentBalance: [],
+        PresentBalanceData: { Data: [], min: Number.MAX_SAFE_INTEGER, max: Number.MIN_SAFE_INTEGER, offSet: 0 },
+        CreditDebitData: { CreditData: [], DebitData: [] }
     },
     reducers: {
         //Function for Taking care of Total Credit and Debit 
@@ -19,19 +21,24 @@ export const transactionSlice = createSlice({
             state.totalCredit = temp["totalCredit"];
             state.totalDebit = temp["totalDebit"];
         },
-        // Functions For taking Care of Line Graph
-        appendPresentBalance: (state, action) => {
-            console.log("Action appendPresentBalance Testing", action.payload)
-            state.PresentBalance = [...state.PresentBalance, action.payload];
+        //Function for taking the transaction Data
+        setBankData: (state, action) => {
+            // console.log("setBankData Result :", action.payload);
+            var data = action.payload;
+            state.PresentBalanceData.Data = [];
+            data.map(x => {
+                if (state.PresentBalanceData.min > x[7]) state.PresentBalanceData.min = x[7];
+                if (state.PresentBalanceData.max < x[7]) state.PresentBalanceData.max = x[7];
+                state.PresentBalanceData.Data = [...state.PresentBalanceData.Data, x[7]]
+            });
+            state.PresentBalanceData.offSet = (state.PresentBalanceData.max - state.PresentBalanceData.min) / 10;
+            console.log('PresentBalance State :', state.PresentBalanceData.Data, state.PresentBalanceData.min, state.PresentBalanceData.max, state.PresentBalanceData.offSet);
         },
-        emptyPresentBalance: (state) => {
-            state.PresentBalance = [];
-            console.log("Action appendPresentBalance Testing", state.PresentBalance)
-        }
+        // Functions For taking Care of Line Gra
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { setCreditDebitValue, appendPresentBalance, emptyPresentBalance } = transactionSlice.actions
+export const { setCreditDebitValue, setBankData } = transactionSlice.actions
 
 export default transactionSlice.reducer
