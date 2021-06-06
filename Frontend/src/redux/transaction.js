@@ -6,7 +6,9 @@ export const transactionSlice = createSlice({
         totalCredit: 0,
         totalDebit: 0,
         PresentBalanceData: { Data: [], min: Number.MAX_SAFE_INTEGER, max: Number.MIN_SAFE_INTEGER, offSet: 0, categories: [] },
-        CreditDebitData: { CreditData: [], DebitData: [], min: Number.MAX_SAFE_INTEGER, max: Number.MIN_SAFE_INTEGER, offSet: 0 }
+        CreditDebitData: { CreditData: [], DebitData: [], min: Number.MAX_SAFE_INTEGER, max: Number.MIN_SAFE_INTEGER, offSet: 0 },
+        leastIndexOffset: 0,
+        Category: { Data: [], DataCount: {} }
     },
     reducers: {
         //Function for Taking care of Total Credit and Debit 
@@ -27,8 +29,13 @@ export const transactionSlice = createSlice({
             var temp = 0.0;
             state.PresentBalanceData.Data = [];
             state.PresentBalanceData.categories = [];
+            var flag = true;
             data.map(x => {
                 // Total Amount Computation 
+                if (flag) {
+                    flag = false;
+                    state.leastIndexOffset = x[0];
+                }
                 if (state.PresentBalanceData.min > x[7]) state.PresentBalanceData.min = x[7];
                 if (state.PresentBalanceData.max < x[7]) state.PresentBalanceData.max = x[7];
                 state.PresentBalanceData.Data = [...state.PresentBalanceData.Data, x[7]];
@@ -46,11 +53,14 @@ export const transactionSlice = createSlice({
             // console.log('PresentBalance State :', state.PresentBalanceData.Data, state.PresentBalanceData.min, state.PresentBalanceData.max, state.PresentBalanceData.categories);
             console.log('PresentBalance State :', state.CreditDebitData.DebitData, state.CreditDebitData.CreditData, state.CreditDebitData.min, state.CreditDebitData.max, state.CreditDebitData.offSet);
         },
-        // Functions For taking Care of Line Gra
+        // This is for fetching data form the Server regarding the column data
+        CategoryInitialisaiton: (state) => {
+
+        }
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { setCreditDebitValue, setBankData } = transactionSlice.actions
+export const { setCreditDebitValue, setBankData, CategoryInitialisaiton } = transactionSlice.actions
 
 export default transactionSlice.reducer

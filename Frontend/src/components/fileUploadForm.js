@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import "../css/FormCss.css";
+import "../css/toggle.css";
 import FileSubmissionForm from "./FileUpload/FileSubmissionForm.js";
 import DataTable from "./Detatable/dataTable.js";
 import ApexPieChart from './Graph/ApexPieChart';
@@ -9,10 +10,12 @@ import { setCreditDebitValue, setBankData } from '../redux/transaction'
 import LineChart from './Graph/LineChartsOne';
 
 const FileUploadForm = () => {
+    const [analyticsFlag, setAnalytics] = useState(false);
     const [bank, setBank] = useState('');
     const [file, setFile] = useState('');
     const [title, setTitle] = useState('');
     const [data, setData] = useState('');
+
 
     const dispatch = useDispatch();
     const { totalCredit, totalDebit, PresentBalanceData, CreditDebitData } = useSelector(state => state.transaction)
@@ -101,8 +104,48 @@ const FileUploadForm = () => {
         initalValue: { min: CreditDebitData.min - CreditDebitData.offSet, max: CreditDebitData.max + CreditDebitData.offSet },
     }
 
+    let AccountDetailsTemplate = (<div className="row" id="TransactionDetails">
+        <div className="col AccountDataSubmission" >
+            <DataTable key="datatable" heading="Transaction" titleValue={title} dataValue={data} />
+        </div>
+    </div>);
 
+    let AnalitcsTemplate = (<div className="row">
+        <div className="col">
+            {(totalDebit || totalCredit) && <LineChart data={LineGraphTotal} /> || ""}
+        </div>
+        <div className="col">
+            {(totalDebit || totalCredit) && <LineChart data={LineGraphCreditDebit} /> || ""}
+        </div>
+    </div>);
 
+    let GraphTemplate = (<div className="row" id="GraphView">
+        <div className="col m-3" id="AccountSumView">
+            {/* Graphs */}
+            <div className="row">
+                <div className="col">
+                    {(totalDebit || totalCredit) && <ApexPieChart type="donut" options={{ width: "450" }} data={DebitCreditChart} /> || ""}
+                </div>
+                <div className="col">
+                    {(totalDebit || totalCredit) && <ApexPieChart type="donut" options={{ width: "450" }} data={DebitCreditChart} /> || ""}
+                </div>
+            </div>
+            {/* Analytics Graph */}
+            {analyticsFlag && AnalitcsTemplate}
+        </div>
+    </div>);
+
+    let analyticsToggleBtn = (
+        <div className="row">
+            <div className="col-11"></div>
+            <div className="outerDivFull col-1 container" >
+                <span>Enable Analytics</span>
+                <div className="switchToggle">
+                    <input type="checkbox" id="switch" onChange={() => setAnalytics(!analyticsFlag)} />
+                    <label for="switch">Analytics</label>
+                </div>
+            </div>
+        </div>);
 
     return (
         <div className="container">
@@ -111,29 +154,10 @@ const FileUploadForm = () => {
                     <FileSubmissionForm key="FileSubmissionForm" onFileUpload={onFileUpload} setFile={setFile} setBank={setBank} />
                 </div>
             </div>
-            <div className="row" id="GraphView">
-                <div className="col m-3" id="AccountSumView">
-                    {/* Graphs */}
-                    <div className="row">
-                        <div className="col">
-                            {(totalDebit || totalCredit) && <ApexPieChart type="donut" options={{ width: "450" }} data={DebitCreditChart} /> || ""}
-                        </div>
-                        <div className="col">
-                            {(totalDebit || totalCredit) && <LineChart data={LineGraphTotal} /> || ""}
-                        </div>
-                        <div className="col">
-                            {(totalDebit || totalCredit) && <LineChart data={LineGraphCreditDebit} /> || ""}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col AccountDataSubmission">
-                    <DataTable key="datatable" heading="Transaction" titleValue={title} dataValue={data} />
-                </div>
-
-            </div>
-        </div>
+            {analyticsToggleBtn}
+            {GraphTemplate}
+            {AccountDetailsTemplate}
+        </div >
     )
 }
 
