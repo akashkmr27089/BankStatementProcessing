@@ -36,8 +36,12 @@ const TabToExpand = ({ defaultActiveKey, openOrClose, ToggleContent, Body, style
     // openOrClose : Contains Default Option Upon page Load wheather to open or close 
     // Body : Contains Body content 
     // ToggleContent: Contains the Head content 
+    let flagCredit = (Body[5] != 0 ? true : false);
     const cssStyle = {
-        backgroundColor: "#df8585"
+        backgroundColor: "#df8585",
+        // borderColor: '#0d6efd',
+        borderColor: flagCredit ? 'red' : 'green',
+        borderWidth: 1,
     }
 
     const [value, setValue] = useState('');
@@ -77,8 +81,8 @@ const TabToExpand = ({ defaultActiveKey, openOrClose, ToggleContent, Body, style
     return (
         <>
             <Accordion defaultActiveKey={defaultActiveKey} className="col-6">
-                <Card >
-                    <Card.Header style={{ backgroundColor: cssStyle.backgroundColor }} >
+                <Card style={{ borderColor: cssStyle.borderColor, borderWidth: cssStyle.borderWidth }}>
+                    <Card.Header>
                         <CustomToggle eventKey={openOrClose} setValue={setValue} DropDownAttributes={DropDownAttributes}>{ToggleContent2}</CustomToggle>
                     </Card.Header>
                     <Accordion.Collapse eventKey={openOrClose}>

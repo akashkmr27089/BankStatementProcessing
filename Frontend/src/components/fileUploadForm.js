@@ -6,6 +6,7 @@ import DataTable from "./Detatable/dataTable.js";
 import ApexPieChart from './Graph/ApexPieChart';
 import { useSelector, useDispatch } from "react-redux";
 import { setCreditDebitValue } from '../redux/transaction'
+import LineChart from './Graph/LineChartsOne';
 
 const FileUploadForm = () => {
     const [bank, setBank] = useState('');
@@ -79,7 +80,15 @@ const FileUploadForm = () => {
             <div className="row" id="GraphView">
                 <div className="col" id="AccountSumView">
                     {/* Graphs */}
-                    {(totalDebit || totalCredit) && <ApexPieChart type="donut" options={{ width: "500" }} data={DebitCreditChart} />}
+                    <div className="row">
+                        <div className="col">
+                            {(totalDebit || totalCredit) && <ApexPieChart type="donut" options={{ width: "450" }} data={DebitCreditChart} /> || ""}
+                        </div>
+                        <div className="col">
+                            {(totalDebit || totalCredit) && <LineChart /> || ""}
+
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className="row">
