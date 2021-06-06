@@ -64,6 +64,11 @@ const LineChart = ({ data }) => {
             },
             xaxis: {
                 categories: { data }.data.categories,  // Its for the X axis marking
+                labels: {
+                    show: false,
+                    // hideOverlappingLabels: true,
+
+                },
                 title: {
                     text: { data }.data.Labels.xlabel
                 }
@@ -81,7 +86,7 @@ const LineChart = ({ data }) => {
                 floating: true,
                 offsetY: -25,
                 offsetX: -5
-            }
+            },
         },
     };
 

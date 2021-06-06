@@ -15,7 +15,7 @@ const FileUploadForm = () => {
     const [data, setData] = useState('');
 
     const dispatch = useDispatch();
-    const { totalCredit, totalDebit, PresentBalanceData } = useSelector(state => state.transaction)
+    const { totalCredit, totalDebit, PresentBalanceData, CreditDebitData } = useSelector(state => state.transaction)
 
     const fetchData = async (formData) => {
 
@@ -71,18 +71,35 @@ const FileUploadForm = () => {
         title: "Testing"
     };
 
-    const LineGraphData = {
+    const LineGraphTotal = {
         LineSeries: [
             {
                 name: "High - 2014",
                 data: PresentBalanceData.Data
             },
         ],
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+        categories: PresentBalanceData.categories,
         Labels: { xlabel: "Progress", ylabel: "Money" },
         title: "Total Balanace",
         initalValue: { min: PresentBalanceData.min - PresentBalanceData.offSet, max: PresentBalanceData.max + PresentBalanceData.offSet },
     };
+
+    const LineGraphCreditDebit = {
+        LineSeries: [
+            {
+                name: "Credit",
+                data: CreditDebitData.CreditData
+            },
+            {
+                name: "Debit",
+                data: CreditDebitData.DebitData
+            },
+        ],
+        categories: CreditDebitData.categories,
+        Labels: { xlabel: "Progress", ylabel: "Money" },
+        title: "Total Balanace",
+        initalValue: { min: CreditDebitData.min - CreditDebitData.offSet, max: CreditDebitData.max + CreditDebitData.offSet },
+    }
 
 
 
@@ -95,14 +112,17 @@ const FileUploadForm = () => {
                 </div>
             </div>
             <div className="row" id="GraphView">
-                <div className="col" id="AccountSumView">
+                <div className="col m-3" id="AccountSumView">
                     {/* Graphs */}
                     <div className="row">
                         <div className="col">
                             {(totalDebit || totalCredit) && <ApexPieChart type="donut" options={{ width: "450" }} data={DebitCreditChart} /> || ""}
                         </div>
                         <div className="col">
-                            {(totalDebit || totalCredit) && <LineChart data={LineGraphData} /> || ""}
+                            {(totalDebit || totalCredit) && <LineChart data={LineGraphTotal} /> || ""}
+                        </div>
+                        <div className="col">
+                            {(totalDebit || totalCredit) && <LineChart data={LineGraphCreditDebit} /> || ""}
                         </div>
                     </div>
                 </div>
