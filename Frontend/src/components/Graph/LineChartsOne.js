@@ -2,19 +2,29 @@ import React from "react";
 import Chart from "react-apexcharts";
 
 //Line Chart with the dots 
+//Parameters : 
+// const LineGraphData = {
+//     LineSeries: [
+//         {
+//             name: "High - 2014",
+//             data: [28, 29, 33, 36, 32, 32, 32]
+//         },
+//         {
+//             name: "Low - 2013",
+//             data: [12, 11, 14, 18, 17, 13, 13]
+//         },
+//     ],
+//     categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+//     Labels: { xlabel: "Month", ylabel: "Temperature" },
+//     title: "Average Temperature",
+//     initalValue: { min: 0, max: 40 },
+// };
 
-const LineChart = () => {
+
+const LineChart = ({ data }) => {
+    console.log(data)
     const state = {
-        series: [
-            {
-                name: "High - 2013",
-                data: [28, 29, 33, 36, 32, 32, 33]
-            },
-            {
-                name: "Low - 2013",
-                data: [12, 11, 14, 18, 17, 13, 13]
-            },
-        ],
+        series: { data }.data.LineSeries,
         options: {
             chart: {
                 height: 350,
@@ -39,7 +49,7 @@ const LineChart = () => {
                 curve: 'smooth'
             },
             title: {
-                text: 'Average High & Low Temperature',
+                text: { data }.data.title,
                 align: 'left'
             },
             grid: {
@@ -53,17 +63,17 @@ const LineChart = () => {
                 size: 0.5
             },
             xaxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                categories: { data }.data.categories,  // Its for the X axis marking
                 title: {
-                    text: 'Month'
+                    text: { data }.data.Labels.xlabel
                 }
             },
             yaxis: {
                 title: {
-                    text: 'Temperature'
+                    text: { data }.data.Labels.ylabel
                 },
-                min: 5,
-                max: 40
+                min: { data }.data.initalValue.min,
+                max: { data }.data.initalValue.max
             },
             legend: {  // Options for placing line details
                 position: 'top',

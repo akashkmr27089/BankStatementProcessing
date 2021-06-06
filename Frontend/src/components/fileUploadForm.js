@@ -69,6 +69,25 @@ const FileUploadForm = () => {
         title: "Testing"
     };
 
+    const LineGraphData = {
+        LineSeries: [
+            {
+                name: "High - 2014",
+                data: [28, 29, 33, 36, 32, 32, 32]
+            },
+            {
+                name: "Low - 2013",
+                data: [12, 11, 14, 18, 17, 13, 13]
+            },
+        ],
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+        Labels: { xlabel: "Month", ylabel: "Temperature" },
+        title: "Average Temperature",
+        initalValue: { min: 0, max: 40 },
+    };
+
+
+
 
     return (
         <div className="container">
@@ -85,8 +104,8 @@ const FileUploadForm = () => {
                             {(totalDebit || totalCredit) && <ApexPieChart type="donut" options={{ width: "450" }} data={DebitCreditChart} /> || ""}
                         </div>
                         <div className="col">
-                            {(totalDebit || totalCredit) && <LineChart /> || ""}
-
+                            {(totalDebit || totalCredit) && <LineChart data={LineGraphData} /> || ""}
+                            {/* <LineChart data={LineGraphData} /> */}
                         </div>
                     </div>
                 </div>
