@@ -76,7 +76,7 @@ const TabToExpand = ({ defaultActiveKey, openOrClose, ToggleContent, Body, style
 
     return (
         <>
-            <Accordion defaultActiveKey={defaultActiveKey}>
+            <Accordion defaultActiveKey={defaultActiveKey} className="col-6">
                 <Card >
                     <Card.Header style={{ backgroundColor: cssStyle.backgroundColor }} >
                         <CustomToggle eventKey={openOrClose} setValue={setValue} DropDownAttributes={DropDownAttributes}>{ToggleContent2}</CustomToggle>

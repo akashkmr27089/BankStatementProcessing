@@ -20,6 +20,7 @@
 
 div.scrollmenu {
     height:400px;
+    /* width:800px; */
     overflow: auto;
   }
   

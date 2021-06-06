@@ -76,14 +76,17 @@ const FileUploadForm = () => {
                     <FileSubmissionForm key="FileSubmissionForm" onFileUpload={onFileUpload} setFile={setFile} setBank={setBank} />
                 </div>
             </div>
-            <div className="row">
-                <div className="col-7 AccountDataSubmission">
-                    <DataTable key="Datable" heading="Transaction" titleValue={title} dataValue={data} />
-                </div>
-                <div className="col-5" id="AccountSumView">
+            <div className="row" id="GraphView">
+                <div className="col" id="AccountSumView">
                     {/* Graphs */}
                     {(totalDebit || totalCredit) && <ApexPieChart type="donut" options={{ width: "500" }} data={DebitCreditChart} />}
                 </div>
+            </div>
+            <div className="row">
+                <div className="col AccountDataSubmission">
+                    <DataTable key="datatable" heading="Transaction" titleValue={title} dataValue={data} />
+                </div>
+
             </div>
         </div>
     )
