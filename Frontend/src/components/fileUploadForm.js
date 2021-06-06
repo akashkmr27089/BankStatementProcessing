@@ -12,8 +12,6 @@ const FileUploadForm = () => {
     const [file, setFile] = useState('');
     const [title, setTitle] = useState('');
     const [data, setData] = useState('');
-    // const [totalDebit, setTDebit] = useState("");
-    // const [totalCredit, setTCredit] = useState("");
 
     const dispatch = useDispatch();
     const { totalCredit, totalDebit } = useSelector(state => state.transaction)
@@ -34,11 +32,7 @@ const FileUploadForm = () => {
             .then(res => res.json());
         setTitle(response.title)
         setData(response.transactionData);
-        console.log("Api Response ", response.TotalCredit, response.TotalDebit);
         dispatch(setCreditDebitValue(JSON.stringify({ 'totalCredit': response.TotalCredit, 'totalDebit': response.TotalDebit })));
-        // dispatch(() => setCreditDebitValue(JSON.stringify({ 'totalCredit': response.TotalCredit, 'totalDebit': response.TotalDebit })));
-        // setTDebit(response.TotalDebit);
-        // setTCredit(response.TotalCredit);
         console.log({ title }, { data }, { totalDebit }, { totalCredit })
     }
 

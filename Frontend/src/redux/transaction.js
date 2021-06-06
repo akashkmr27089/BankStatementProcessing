@@ -5,8 +5,10 @@ export const transactionSlice = createSlice({
     initialState: {
         totalCredit: 0,
         totalDebit: 0,
+        PresentBalance: []
     },
     reducers: {
+        //Function for Taking care of Total Credit and Debit 
         setCreditDebitValue: (state, action) => {
             // Redux Toolkit allows us to write "mutating" logic in reducers. It
             // doesn't actually mutate the state because it uses the Immer library,
@@ -17,10 +19,19 @@ export const transactionSlice = createSlice({
             state.totalCredit = temp["totalCredit"];
             state.totalDebit = temp["totalDebit"];
         },
+        // Functions For taking Care of Line Graph
+        appendPresentBalance: (state, action) => {
+            console.log("Action appendPresentBalance Testing", action.payload)
+            state.PresentBalance = [...state.PresentBalance, action.payload];
+        },
+        emptyPresentBalance: (state) => {
+            state.PresentBalance = [];
+            console.log("Action appendPresentBalance Testing", state.PresentBalance)
+        }
     },
-})
+});
 
 // Action creators are generated for each case reducer function
-export const { setCreditDebitValue } = transactionSlice.actions
+export const { setCreditDebitValue, appendPresentBalance, emptyPresentBalance } = transactionSlice.actions
 
 export default transactionSlice.reducer

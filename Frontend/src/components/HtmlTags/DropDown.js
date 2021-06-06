@@ -18,7 +18,6 @@ const DropDown = ({ setSelected, dropdownValues, title, id }) => {
     return (
         <div className="App container">
             <DropdownButton
-                alighncenter
                 title={title}
                 id={id}
                 onSelect={handleSelect}
