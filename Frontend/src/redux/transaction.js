@@ -1,4 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+
+export const fetchCategoryInitializationData = createAsyncThunk(
+    'get/categoryData',
+    async () => {
+        return fetch("http://127.0.0.1:5000/getCategories", {
+            method: "GET",
+        })
+            .then(res => res.json())
+            .catch(error => console.log("error", error));
+    }
+);
 
 export const transactionSlice = createSlice({
     name: 'counter',
@@ -8,7 +19,8 @@ export const transactionSlice = createSlice({
         PresentBalanceData: { Data: [], min: Number.MAX_SAFE_INTEGER, max: Number.MIN_SAFE_INTEGER, offSet: 0, categories: [] },
         CreditDebitData: { CreditData: [], DebitData: [], min: Number.MAX_SAFE_INTEGER, max: Number.MIN_SAFE_INTEGER, offSet: 0 },
         leastIndexOffset: 0,
-        Category: { Data: [], DataCount: {} }
+        Category: { Options: [], Abreviations: [], DataCount: {} },
+        SelectedOptions: {}
     },
     reducers: {
         //Function for Taking care of Total Credit and Debit 
@@ -53,14 +65,30 @@ export const transactionSlice = createSlice({
             // console.log('PresentBalance State :', state.PresentBalanceData.Data, state.PresentBalanceData.min, state.PresentBalanceData.max, state.PresentBalanceData.categories);
             console.log('PresentBalance State :', state.CreditDebitData.DebitData, state.CreditDebitData.CreditData, state.CreditDebitData.min, state.CreditDebitData.max, state.CreditDebitData.offSet);
         },
-        // This is for fetching data form the Server regarding the column data
-        CategoryInitialisaiton: (state) => {
-
+        // Setting the Value for Category
+        setCategoryData: (state, action) => {
+            var temp = JSON.parse(action.payload);
+            state.SelectedOptions[temp['index']] = temp['selectedIndex'];
         }
     },
+    extraReducers: {
+        [fetchCategoryInitializationData.pending]: (state, action) => {
+            console.log("Fetch Operation in Progress");
+            state.Category.data = "Loading...";
+        },
+        [fetchCategoryInitializationData.fulfilled]: (state, action) => {
+            console.log("Fetch Operation Returned the data", action.payload);
+            state.Category.Abreviations = action.payload.Abreviations;
+            state.Category.Options = action.payload.Options;
+            // console.log(action.payload.Abreviations, action.payload.Options)
+        },
+        [fetchCategoryInitializationData.rejected]: (state, action) => {
+            console.log("Error during Fetching")
+        },
+    }
 });
 
 // Action creators are generated for each case reducer function
-export const { setCreditDebitValue, setBankData, CategoryInitialisaiton } = transactionSlice.actions
+export const { setCreditDebitValue, setBankData, setCategoryData } = transactionSlice.actions
 
 export default transactionSlice.reducer

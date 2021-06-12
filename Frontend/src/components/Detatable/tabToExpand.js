@@ -2,7 +2,9 @@ import React from 'react'
 import { useState } from 'react'
 import { Accordion, Card, useAccordionToggle } from 'react-bootstrap'
 import { FiChevronsDown, FiChevronsUp } from 'react-icons/fi';
-import DropDown from '../HtmlTags/DropDown.js';
+import DropDownDefault from '../HtmlTags/DefaultDropDown.js';
+import { useSelector, useDispatch } from "react-redux";
+
 
 const CustomToggle = ({ children, eventKey, setValue, DropDownAttributes }) => {
     const [EventKey, setEventKey] = useState((parseInt(eventKey)));
@@ -15,15 +17,17 @@ const CustomToggle = ({ children, eventKey, setValue, DropDownAttributes }) => {
             <div className="AccordianContent col-7">
                 {children}
             </div>
-            <div className="col-3">
-                <DropDown
+            <div className="col-4">
+                {/* <DropDown
                     setSelected={setValue}
                     dropdownValues={DropDownAttributes.dropdownValues}
                     title={DropDownAttributes.HeadTile.value || "Category"}
                     id={DropDownAttributes.id}
-                />
+                /> */}
+                {/* For now default option is 0th Option */}
+                <DropDownDefault dropdownValues={DropDownAttributes.dropdownValues} index={DropDownAttributes.id} selectedIndex={0} />
             </div>
-            <div className="AccordianArrow col-2">
+            <div className="AccordianArrow col-1">
                 {(!({ EventKey }.EventKey % 2)) && <FiChevronsDown style={{ cursor: 'pointer' }} onClick={decoratedOnClick} /> || ({ EventKey }.EventKey % 2) && <FiChevronsUp style={{ cursor: 'pointer' }} onClick={decoratedOnClick} />}
             </div>
         </div>
@@ -32,7 +36,7 @@ const CustomToggle = ({ children, eventKey, setValue, DropDownAttributes }) => {
 
 const TabToExpand = ({ defaultActiveKey, openOrClose, ToggleContent, Body, style }) => {
     // Parametes:
-    // defaultActiveKey: "0"
+    // defaultActiveKey: "0"    
     // openOrClose : Contains Default Option Upon page Load wheather to open or close 
     // Body : Contains Body content 
     // ToggleContent: Contains the Head content 
@@ -43,13 +47,16 @@ const TabToExpand = ({ defaultActiveKey, openOrClose, ToggleContent, Body, style
         borderColor: flagCredit ? 'red' : 'green',
         borderWidth: 1,
     }
+    const { Category } = useSelector(state => state.transaction)
 
     const [value, setValue] = useState('');
     const DropDownAttributes = {
         // dropdownValues: ["OptionA", "OptionB", "OptionC", "OptionD"],
-        dropdownValues: ["Kulfi", "Dark Chocolate", "Maggie", "Pani Puri"],
+        // dropdownValues: ["Kulfi", "Dark Chocolate", "Maggie", "Pani Puri"],
+        dropdownValues: Category.Options,
         HeadTile: { value },
-        id: `CategoryHead_${Body[0]}`
+        // id: `CategoryHead_${Body[0]}`
+        id: Body[0]
     };
 
     // console.log({ Body }.Body[0])

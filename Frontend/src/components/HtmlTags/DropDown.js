@@ -14,7 +14,7 @@ const DropDown = ({ setSelected, dropdownValues, title, id }) => {
         setSelected(e);
     }
 
-    let optionsDropDown = dropdownValues.map(x => <Dropdown.Item eventKey={x} key={x}>{x}</Dropdown.Item>);
+    let optionsDropDown = dropdownValues.map((x, i) => <Dropdown.Item eventKey={x} key={x} id={i}>{x}</Dropdown.Item>);
     return (
         <div className="App container">
             <DropdownButton

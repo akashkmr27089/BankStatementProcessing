@@ -6,8 +6,9 @@ import FileSubmissionForm from "./FileUpload/FileSubmissionForm.js";
 import DataTable from "./Detatable/dataTable.js";
 import ApexPieChart from './Graph/ApexPieChart';
 import { useSelector, useDispatch } from "react-redux";
-import { setCreditDebitValue, setBankData } from '../redux/transaction'
+import { setCreditDebitValue, setBankData, fetchCategoryInitializationData, setCategoryData } from '../redux/transaction'
 import LineChart from './Graph/LineChartsOne';
+import DropDownDefault from './HtmlTags/DefaultDropDown';
 
 const FileUploadForm = () => {
     const [analyticsFlag, setAnalytics] = useState(false);
@@ -18,7 +19,7 @@ const FileUploadForm = () => {
 
 
     const dispatch = useDispatch();
-    const { totalCredit, totalDebit, PresentBalanceData, CreditDebitData } = useSelector(state => state.transaction)
+    const { totalCredit, totalDebit, PresentBalanceData, CreditDebitData, Category } = useSelector(state => state.transaction)
 
     const fetchData = async (formData) => {
 
@@ -63,6 +64,7 @@ const FileUploadForm = () => {
 
         //Fetch command for putting post request 
         fetchData(formData);
+        dispatch(fetchCategoryInitializationData());
     };
 
     const DebitCreditChart = {
@@ -98,7 +100,7 @@ const FileUploadForm = () => {
                 data: CreditDebitData.DebitData
             },
         ],
-        categories: CreditDebitData.categories,
+        categories: PresentBalanceData.categories,
         Labels: { xlabel: "Progress", ylabel: "Money" },
         title: "Total Balanace",
         initalValue: { min: CreditDebitData.min - CreditDebitData.offSet, max: CreditDebitData.max + CreditDebitData.offSet },
@@ -147,6 +149,23 @@ const FileUploadForm = () => {
             </div>
         </div>);
 
+
+    // dispatch(fetchCategoryInitializationData());
+    // { Category.Options.map(x => console.log(" Testing ", x)) }
+
+    // let Options = Category.Options.map(x => <option value={x}>{x}</option>);
+
+    // let DropDownDefault = (
+    //     <div className="row">
+    //         <div className="col-6">
+    //             <select name="department" className="form-control" required>
+    //                 <option disabled selected value> -- Select an Department -- </option>
+    //                 {Options}
+    //             </select>
+    //         </div>
+    //     </div>
+    // );
+
     return (
         <div className="container">
             <div className="row">
@@ -157,6 +176,8 @@ const FileUploadForm = () => {
             {analyticsToggleBtn}
             {GraphTemplate}
             {AccountDetailsTemplate}
+            {/* {DropDownDefault} */}
+            <DropDownDefault dropdownValues={Category.Options} index={2} selectedIndex={3} />
         </div >
     )
 }
