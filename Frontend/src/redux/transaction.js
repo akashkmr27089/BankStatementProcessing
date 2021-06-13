@@ -19,7 +19,7 @@ export const transactionSlice = createSlice({
         PresentBalanceData: { Data: [], min: Number.MAX_SAFE_INTEGER, max: Number.MIN_SAFE_INTEGER, offSet: 0, categories: [] },
         CreditDebitData: { CreditData: [], DebitData: [], min: Number.MAX_SAFE_INTEGER, max: Number.MIN_SAFE_INTEGER, offSet: 0 },
         leastIndexOffset: 0,
-        Category: { Options: [], Abreviations: [], DataCount: {} },
+        Category: { Options: [], Abreviations: [], DataCount: {}, count: 0 },
         SelectedOptions: {}
     },
     reducers: {
@@ -97,6 +97,8 @@ export const transactionSlice = createSlice({
             console.log("Fetch Operation Returned the data", action.payload);
             state.Category.Abreviations = action.payload.Abreviations;
             state.Category.Options = action.payload.Options;
+            state.Category.count = action.payload.Options.length;
+            state.Category.DataCount = new Array(state.Category.count + 1).fill(0)
             // console.log(action.payload.Abreviations, action.payload.Options)
         },
         [fetchCategoryInitializationData.rejected]: (state, action) => {

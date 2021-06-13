@@ -76,6 +76,14 @@ const FileUploadForm = () => {
         title: "Testing"
     };
 
+    const CategoryChart = {
+        series: Category.DataCount,
+        chartOptions: {
+            labels: ['Pseudo', ...Category.Options]
+        },
+        title: "Category Chart",
+    }
+
     const LineGraphTotal = {
         LineSeries: [
             {
@@ -129,7 +137,7 @@ const FileUploadForm = () => {
                     {(totalDebit || totalCredit) && <ApexPieChart type="donut" options={{ width: "450" }} data={DebitCreditChart} /> || ""}
                 </div>
                 <div className="col">
-                    {(totalDebit || totalCredit) && <ApexPieChart type="donut" options={{ width: "450" }} data={DebitCreditChart} /> || ""}
+                    {(totalDebit || totalCredit) && <ApexPieChart type="donut" options={{ width: "450" }} data={CategoryChart} /> || ""}
                 </div>
             </div>
             {/* Analytics Graph */}
