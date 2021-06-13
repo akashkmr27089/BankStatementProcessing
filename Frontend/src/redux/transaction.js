@@ -68,8 +68,25 @@ export const transactionSlice = createSlice({
         // Setting the Value for Category
         setCategoryData: (state, action) => {
             var temp = JSON.parse(action.payload);
+            var temp2 = state.SelectedOptions[temp['index']];
+            if (temp2 == undefined) {
+                if (state.Category.DataCount[temp['selectedIndex']] == undefined) {
+                    state.Category.DataCount[temp['selectedIndex']] = 1;
+                } else {
+                    state.Category.DataCount[temp['selectedIndex']] += 1;
+                }
+            } else if (temp2 != undefined) {
+                // It was perviously defined 
+                state.Category.DataCount[temp2] -= 1;
+                if (state.Category.DataCount[temp['selectedIndex']] == undefined) {
+                    state.Category.DataCount[temp['selectedIndex']] = 1;
+                } else {
+                    state.Category.DataCount[temp['selectedIndex']] += 1;
+                }
+            }
             state.SelectedOptions[temp['index']] = temp['selectedIndex'];
-        }
+        },
+
     },
     extraReducers: {
         [fetchCategoryInitializationData.pending]: (state, action) => {
